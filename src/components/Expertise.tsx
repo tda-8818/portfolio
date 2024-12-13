@@ -6,11 +6,6 @@ import Chip from '@mui/material/Chip';
 import '../assets/styles/Expertise.scss';
 
 const labelsFirst = [
-    "React",
-    "TypeScript",
-    "JavaScript",
-    "HTML5",
-    "CSS3",
     "SASS",
     "Flask",
     "Python",
@@ -32,9 +27,8 @@ const labelsThird = [
     "TypeScript",
     "JavaScript",
     "Angular",
-    "",
-    "LlamaIndex",
-    "Streamlit",
+    "HTML5",
+    "CSS3",
 ];
 
 function Expertise() {
@@ -70,7 +64,7 @@ function Expertise() {
                 <div className="skill">
                     <FontAwesomeIcon icon={faWifi} size="3x"/>
                     <h3>Web Development</h3>
-                    <p>Stay relevant in the market by leveraging the latest AI models in your projects. I have professional experience building enterprise grade GenAI-enabled solutions to empower intelligent decision making.</p>
+                    <p>Developed web applications using React and Angular. Proficient in Functional Reactive Programming. Also have experience designing UI/UX.</p>
                     <div className="flex-chips">
                         <span className="chip-title">Tech stack:</span>
                         {labelsThird.map((label, index) => (
