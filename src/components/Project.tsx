@@ -1,8 +1,5 @@
 import React from "react";
 import taskSystem from '../assets/images/tasksystem.png';
-import mock06 from '../assets/images/mock06.png';
-import mock07 from '../assets/images/mock07.png';
-import mock08 from '../assets/images/mock08.png';
 import staticFactory from '../assets/images/staticfactory.png';
 import '../assets/styles/Project.scss';
 
