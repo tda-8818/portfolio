@@ -31,9 +31,9 @@ const labelsThird = [
     "CSS3",
 ];
 
-function Expertise() {
+function Skill() {
     return (
-    <div className="container" id="expertise">
+    <div className="container" id="skill">
         <div className="skills-container">
             <h1>Skills</h1>
             <div className="skills-grid">
@@ -78,4 +78,4 @@ function Expertise() {
     );
 }
 
-export default Expertise;
+export default Skill;
