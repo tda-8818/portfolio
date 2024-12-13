@@ -51,9 +51,14 @@
 
 .about-section .image-wrapper {
     z-index: 2;
+
     img {
-        width: 150px;
-        border-radius: 50%;
+        width: 150px; // Fixed size for larger screens
+        max-width: 100%; // Ensures responsiveness for smaller screens
+        height: auto; // Maintains aspect ratio
+        border-radius: 50%; // Keeps the circular shape
+        display: block; // Centers the image horizontally
+        margin: 0 auto; // Centers the image horizontally
     }
 }
 
@@ -65,24 +70,24 @@
 
 @media screen {
     @media (max-width: 567px) {
-        .nav-left{
+        .nav-left {
             padding-top: 20px;
-            float:left;
+            float: left;
         }
 
         .nav-left img {
-            height: 35px
+            height: 35px;
         }
 
         .nav-right {
-            float:right;
+            float: right;
         }
 
         .nav-right li {
             padding: 10px 15px;
-            list-style:none;
-            font-size:13px;
-            color:white;
+            list-style: none;
+            font-size: 13px;
+            color: white;
             width: 10%;
         }
 
@@ -97,13 +102,27 @@
         }
 
         .about {
-            padding-left: 5%;
-            padding-right: 5%;
-            font-size: 12px;
+            padding-left: 10%;
+            padding-right: 10%;
+            font-size: 14px; // Adjust font size for smaller screens
+        }
+
+        .about-section {
+            padding-top: 50px; // Adjust padding for smaller screens
+        }
+
+        .about-section .image-wrapper {
+            text-align: center; // Center the wrapper
+            width: 100%; // Full width for responsiveness
+            padding-left: 0; // Remove unnecessary padding
+
+            img {
+                width: 100px; // Reduce image size for smaller screens
+            }
         }
     }
 
-    @media (max-width:768px) {
+    @media (max-width: 768px) {
         .about-section h1 {
             font-size: 4em !important;
             text-align: left;
@@ -127,29 +146,34 @@
             flex-direction: row;
             gap: 10px;
             color: white;
-    
+
             svg {
                 font-size: 1.8em;
             }
         }
 
         .about-section {
-            padding-top: 150px;
+            padding-top: 100px; // Adjust for medium screens
             display: block;
-            padding-left: 0px;
-            padding-right: 0px;
+            padding-left: 10px;
+            padding-right: 10px;
         }
 
         .about-section .content {
-            width: 90%;
+            width: 100%; // Full width for content
             padding-left: 5%;
             padding-right: 5%;
             padding-bottom: 5%;
         }
 
         .about-section .image-wrapper {
-            padding-left: 5%;
+            text-align: center;
             width: 100%;
+            padding-bottom: 20px; // Add spacing below the image
+
+            img {
+                width: 120px; // Slightly smaller size for medium screens
+            }
         }
     }
 }
