@@ -14,6 +14,16 @@
 .projects-container .projects-grid .project {
     text-align: left;
 }
+
+/* Ensure all images maintain the same aspect ratio */
+.projects-container .projects-grid .project img {
+    width: 100%; /* Full width of the container */
+    aspect-ratio: 8 / 5; /* Set a consistent aspect ratio */
+    object-fit: contain; /* Ensure the entire image is visible */
+    border-radius: 5px; /* Keep the rounded corners */
+    transition: transform 0.2s;
+    margin: 0 auto;
+}
   
 .project h2:hover {
     text-decoration: underline;

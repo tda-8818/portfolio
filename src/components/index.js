@@ -5,3 +5,4 @@ export { default as Skill } from "./Skill";
 export { default as Timeline } from "./Timeline";
 export { default as Project } from "./Project";
 export { default as Contact } from "./Contact";
+export { default as Hobby } from "./Hobby";
