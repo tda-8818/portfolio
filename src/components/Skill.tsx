@@ -38,7 +38,7 @@ function Skill() {
                 <div className="skill">
                     <FontAwesomeIcon icon={faLayerGroup} size="3x"/>
                     <h3>Full Stack Development</h3>
-                    <p>I have built several desktop applications from scratch using .NET. I have a strong proficiency in the SDLC process and frontend + backend development.</p>
+                    <p>I have built several desktop applications from scratch using .NET. I am proficient in frontend + backend development and have an understanding of the SDLC process.</p>
                     <div className="flex-chips">
                         <span className="chip-title">Tech stack:</span>
                         {labelsFirst.map((label, index) => (
