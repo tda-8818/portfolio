@@ -6,8 +6,6 @@ import Chip from '@mui/material/Chip';
 import '../assets/styles/Skill.scss';
 
 const labelsFirst = [
-    "SASS",
-    "Flask",
     "Python",
     "SQL",
     "PostgreSQL",
