@@ -62,7 +62,7 @@ function Skill() {
                 <div className="skill">
                     <FontAwesomeIcon icon={faWifi} size="3x"/>
                     <h3>Web Development</h3>
-                    <p>Developed web applications using React and Angular. Proficient in Functional Reactive Programming. Also have experience designing UI/UX.</p>
+                    <p>Developed web applications using React and Angular. Proficient in Functional Reactive Programming. Also have experience UI/UX design.</p>
                     <div className="flex-chips">
                         <span className="chip-title">Tech stack:</span>
                         {labelsThird.map((label, index) => (
