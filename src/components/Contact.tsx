@@ -28,26 +28,26 @@ function Contact() {
 
     /* Uncomment below if you want to enable the emailJS */
 
-    if (name !== '' && email !== '' && message !== '') {
-      var templateParams = {
-        name: name,
-        email: email,
-        message: message
-      };
+    // if (name !== '' && email !== '' && message !== '') {
+    //   var templateParams = {
+    //     name: name,
+    //     email: email,
+    //     message: message
+    //   };
 
-      console.log(templateParams);
-      emailjs.send('service_cvaa8nc', 'template_12pf3ah', templateParams, 'Z1zLj7iZSQYs1UWK3').then(
-        (response: EmailJSResponseStatus) => {
-          console.log('SUCCESS!', response.status, response.text);
-        },
-        (error: any) => {
-          console.log('FAILED...', error);
-        },
-      );
-      setName('');
-      setEmail('');
-      setMessage('');
-    }
+    //   console.log(templateParams);
+    //   emailjs.send('service_cvaa8nc', 'template_12pf3ah', templateParams, 'Z1zLj7iZSQYs1UWK3').then(
+    //     (response: EmailJSResponseStatus) => {
+    //       console.log('SUCCESS!', response.status, response.text);
+    //     },
+    //     (error: any) => {
+    //       console.log('FAILED...', error);
+    //     },
+    //   );
+    //   setName('');
+    //   setEmail('');
+    //   setMessage('');
+    // }
   };
 
   return (
