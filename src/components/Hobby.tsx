@@ -16,7 +16,7 @@ function Hobby() {
             <div className="hobby">
                 <img src={fish} className="zoom" alt="thumbnail" width="100%"/>
                 <h2>Cooking</h2>
-                <p>Love expressing my appreciaction of different cultures through cooking.</p>
+                <p>Love expressing my appreciation of different cultures through cooking.</p>
             </div>
         </div>
     </div>

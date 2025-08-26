@@ -1,72 +1,60 @@
 import React from "react";
 import '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGamepad, faLayerGroup, faWifi } from '@fortawesome/free-solid-svg-icons';
+import { faServer, faCode, faPalette, faBrain } from '@fortawesome/free-solid-svg-icons'; // Changed icons
 import Chip from '@mui/material/Chip';
 import '../assets/styles/Skill.scss';
 
-const labelsFirst = [
-    "Python",
-    "SQL",
-    "PostgreSQL",
-    "MongoDB"
+const backendLabels = [ // Renamed and regrouped
+    "Python", "Java", "C#", "Node.js", ".NET", "Spring Boot"
 ];
 
-const labelsSecond = [
-    "Java",
-    "C#",
-    "C/C++",
-    ".NET",
-    "Springboot"
+const frontendLabels = [
+    "JavaScript (ES6+)", "TypeScript", "React", "Angular", "HTML5", "CSS3", "Tailwind CSS"
 ];
 
-const labelsThird = [
-    "React",
-    "TypeScript",
-    "JavaScript",
-    "Angular",
-    "HTML5",
-    "CSS3",
+const databaseToolsLabels = [ // New category
+    "SQL", "PostgreSQL", "MySQL", "MongoDB", "Git", "Docker", "AWS EB", "Jira", "Figma"
 ];
 
 function Skill() {
     return (
     <div className="container" id="skill">
         <div className="skills-container">
-            <h1>Skills</h1>
+            <h1>Skills & Technologies</h1> {/* Updated title */}
             <div className="skills-grid">
                 <div className="skill">
-                    <FontAwesomeIcon icon={faLayerGroup} size="3x"/>
-                    <h3>Full Stack Development</h3>
-                    <p>I have built several desktop applications from scratch using .NET. I am proficient in frontend + backend development and have an understanding of the SDLC process.</p>
+                    <FontAwesomeIcon icon={faServer} size="3x"/>
+                    <h3>Backend Development</h3>
+                    <p>I develop robust server-side logic, RESTful APIs, and database architectures using object-oriented and modular programming principles. Experienced in building scalable applications with .NET, JavaScript and Spring Boot frameworks.</p>
                     <div className="flex-chips">
-                        <span className="chip-title">Tech stack:</span>
-                        {labelsFirst.map((label, index) => (
-                            <Chip key={index} className='chip' label={label} />
+                        <span className="chip-title">Technologies:</span>
+                        {backendLabels.map((label, index) => (
+                            <Chip key={index} className='chip' label={label} variant="outlined" />
                         ))}
                     </div>
                 </div>
 
                 <div className="skill">
-                    <FontAwesomeIcon icon={faGamepad} size="3x"/>
-                    <h3>Game Development</h3>
-                    <p>I have built a diverse array of game applications. I have a strong proficiency in the MVC architecture, Abstract Factory pattern, SOLID principles, and core OOP concepts such as abstraction, encapsulation, inheritance and polymorphism.</p>
+                    <FontAwesomeIcon icon={faCode} size="3x"/>
+                    <h3>Frontend & Web Development</h3>
+                    <p>I create dynamic, responsive, and user-friendly interfaces. I am proficient in modern JavaScript frameworks and functional reactive programming, ensuring a seamless user experience.</p>
                     <div className="flex-chips">
-                        <span className="chip-title">Tech stack:</span>
-                        {labelsSecond.map((label, index) => (
-                            <Chip key={index} className='chip' label={label} />
+                        <span className="chip-title">Technologies:</span>
+                        {frontendLabels.map((label, index) => (
+                            <Chip key={index} className='chip' label={label} variant="outlined" />
                         ))}
                     </div>
                 </div>
 
                 <div className="skill">
-                    <FontAwesomeIcon icon={faWifi} size="3x"/>
-                    <h3>Web Development</h3>
-                    <p>Developed web applications using React and Angular. Proficient in Functional Reactive Programming. Also have experience UI/UX design.</p>
+                    <FontAwesomeIcon icon={faPalette} size="3x"/> {/* Changed icon */}
+                    <h3>Databases & Tools</h3> {/* Changed title */}
+                    <p>I am proficient in both SQL and NoSQL databases for efficient data management. I use modern development tools and practices, including version control with Git, containerisation with Docker, and cloud services on AWS.</p>
                     <div className="flex-chips">
-                        <span className="chip-title">Tech stack:</span>
-                        {labelsThird.map((label, index) => (
-                            <Chip key={index} className='chip' label={label} />
+                        <span className="chip-title">Technologies:</span>
+                        {databaseToolsLabels.map((label, index) => (
+                            <Chip key={index} className='chip' label={label} variant="outlined" />
                         ))}
                     </div>
                 </div>
