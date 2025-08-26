@@ -20,8 +20,8 @@ function Main() {
             {/* <a href="/path/to/resume.pdf" target="_blank" rel="noopener noreferrer" aria-label="Resume"><DescriptionIcon/></a> */}
           </div>
           <h1>Elsa Tsia</h1>
-          <p>Computer Science Graduate & Full-Stack Developer</p> {/* Changed from "Student" */}
-          <div className="brief-intro"> {/* Add a brief intro line */}
+          <p>Full-Stack Developer & Tech Consultant</p> 
+          <div className="brief-intro"> 
             I build full-stack applications and enjoy solving problems with code.
           </div>
 

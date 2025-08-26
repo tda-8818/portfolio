@@ -153,3 +153,28 @@ p, a, h1, h2, h3, h4, h5, label, button {
     }
   }
 }
+
+/* Chip Styling for Dark Mode (default) */
+.chip {
+  color: white !important; // Text color
+  border-color: rgba(255, 255, 255, 0.23) !important; // Border color
+  background-color: rgba(255, 255, 255, 0.08) !important; // Background color
+
+  // You might need to target MuiChip specifically if the above isn't enough
+  .MuiChip-label {
+    color: white;
+  }
+}
+
+/* Chip Styling for Light Mode */
+.light-mode {
+  .chip {
+    color: rgba(0, 0, 0, 0.87) !important; // Text color
+    border-color: rgba(0, 0, 0, 0.26) !important; // Border color
+    background-color: rgba(0, 0, 0, 0.08) !important; // Background color
+
+    .MuiChip-label {
+      color: rgba(0, 0, 0, 0.87);
+    }
+  }
+}
