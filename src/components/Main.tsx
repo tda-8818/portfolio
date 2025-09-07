@@ -1,7 +1,6 @@
 import React from "react";
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import DescriptionIcon from '@mui/icons-material/Description';
 import '../assets/styles/Main.scss';
 import profilePic from '../assets/images/profilepic.png';
 

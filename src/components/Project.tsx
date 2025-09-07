@@ -4,7 +4,6 @@ import staticFactory from '../assets/images/staticfactory.png';
 import findingPlants from '../assets/images/findingplants.png';
 import recyclingApp from '../assets/images/recyclingapp.png';
 import LaunchIcon from '@mui/icons-material/Launch';
-import GitHubIcon from '@mui/icons-material/GitHub';
 import '../assets/styles/Project.scss';
 import Chip from '@mui/material/Chip';
 

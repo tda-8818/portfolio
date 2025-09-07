@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
 import '../assets/styles/Contact.scss';
-import emailjs from 'emailjs-com';
+//import emailjs from 'emailjs-com';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
-import { EmailJSResponseStatus } from 'emailjs-com';
+//import { EmailJSResponseStatus } from 'emailjs-com';
 
 function Contact() {
 

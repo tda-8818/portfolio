@@ -1,7 +1,7 @@
 import React from "react";
 import '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faServer, faCode, faPalette, faBrain } from '@fortawesome/free-solid-svg-icons'; // Changed icons
+import { faServer, faCode, faPalette } from '@fortawesome/free-solid-svg-icons'; // Changed icons
 import Chip from '@mui/material/Chip';
 import '../assets/styles/Skill.scss';
 

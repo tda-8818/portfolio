@@ -24,10 +24,10 @@ function Timeline() {
             <h3 className="vertical-timeline-element-title">Cybersecurity Associate</h3>
             <h4 className="vertical-timeline-element-subtitle">AlphaCloud Pty Ltd | Melbourne, Australia</h4>
             <ul>
-              <li>Applied foundational knowledge of security principles, including <strong>risk management, access control, and cryptography</strong>, aligned with (ISC)² CBK domains.</li>
-              <li>Gained practical insight into <strong>security operations</strong>, including incident response frameworks and threat intelligence analysis.</li>
+              <li>Applied foundational knowledge of security principles, including <strong>risk management, access control, and cryptography</strong>.</li>
+              <li>Gained practical insight into <strong>security operations</strong>, including incident response and threat intelligence analysis.</li>
               <li>Developed a strong understanding of <strong>network security architecture</strong>, including TCP/IP suite protocols, VLAN segmentation, routing/switching concepts, and Wi-Fi security considerations.</li>
-              <li>Exposed to industry-standard <strong>security frameworks</strong> and tools relevant for protecting infrastructure and ensuring compliance in regulated environments.</li>
+              <li>Exposed to industry-standard <strong>security frameworks</strong> including NIST and ISO 27001 and tools relevant for protecting infrastructure and ensuring compliance in regulated environments.</li>
               <li>Assisted in evaluating security controls and understanding methodologies for <strong>penetration testing</strong> and vulnerability assessment.</li>
 
             </ul>
@@ -45,11 +45,11 @@ function Timeline() {
             <h4 className="vertical-timeline-element-subtitle">TK Elevator | Sydney, Australia</h4>
             <ul>
 
-              <li>Gained comprehensive insight into corporate IT infrastructure and project management by shadowing Business Analysts and collaborating with teams across the organization.</li>
+              <li>Gained insight into corporate IT infrastructure and project management by shadowing Business Analysts and collaborating with teams across the organisation.</li>
               <li>
                 <strong>Collaborated across all IT support tiers</strong>, developing a clear understanding of their distinct functions:
                 <ul>
-                  <li>Assisted <strong>L1 Help Desk</strong> with initial user triage and ticket logging.</li>
+                  <li>Witnessed <strong>L1 Help Desk</strong> with initial user triage and ticket logging.</li>
                   <li>Supported <strong>L2 Technical Support</strong> with hands-on troubleshooting and software/hardware configuration.</li>
                 </ul>
                 This experience developed my ability to communicate technical concepts effectively to audiences with varying levels of expertise.
