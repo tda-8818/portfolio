@@ -15,7 +15,7 @@ code {
 
 .main-container {
   position: relative;
-  background-color: #0d1116;
+  background-color: #000000;
 
 }
 
@@ -35,7 +35,7 @@ p, a, h1, h2, h3, h4, h5, label, button {
 
 .navigation-bar {
   justify-content: space-between;
-  background-color: #0d1116;
+  background-color: #000000;
 
   button {
     font-size: 1.1rem;
@@ -93,14 +93,14 @@ p, a, h1, h2, h3, h4, h5, label, button {
 }
 
 .light-mode {
-  background-color: beige;
+  background-color: #f6f7e9;
 
   .navigation-bar {
-    background-color: beige;
+    background-color: #f6f7e9;
   }
 
   p, a, h1, h2, h3, h4, h5, label, button {
-    color: #0d1116;
+    color: #000000;
   }
 
   a:hover {
@@ -109,7 +109,7 @@ p, a, h1, h2, h3, h4, h5, label, button {
   }
 
   .navigation-bar svg {
-    color: #0d1116;
+    color: #000000;
   }
 
   .about-section {
@@ -117,7 +117,7 @@ p, a, h1, h2, h3, h4, h5, label, button {
   }
 
   .skills-container svg {
-    color: #0d1116;
+    color: #000000;
   }
 
   .chip {
