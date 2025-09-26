@@ -2,6 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Star Animation Keyframes */
+@keyframes twinkle {
+  0%, 100% { 
+    opacity: 0.3; 
+    transform: scale(0.8); 
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1.2); 
+  }
+}
+
+@keyframes shootingStar {
+  0% {
+    transform: translateX(-100px) translateY(100px) scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100px) translateY(-100px) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes starsRiseUp {
+  from {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes cloudFloat {
+  0%, 100% {
+    transform: translateX(-20px);
+  }
+  50% {
+    transform: translateX(20px);
+  }
+}
+
+@keyframes heavenlyGlow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
 /* Custom animations */
 @keyframes fadeIn {
   from {
@@ -25,12 +82,33 @@
   }
 }
 
+/* Animation Classes */
 .animate-fade-in {
   animation: fadeIn 1s ease-in-out;
 }
 
 .animate-slide-up {
   animation: slideUp 0.8s ease-out;
+}
+
+.animate-twinkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+.animate-shooting-star {
+  animation: shootingStar 3s linear infinite;
+}
+
+.animate-stars-rise {
+  animation: starsRiseUp 2s ease-out;
+}
+
+.animate-cloud-float {
+  animation: cloudFloat 20s ease-in-out infinite;
+}
+
+.animate-heavenly-glow {
+  animation: heavenlyGlow 4s ease-in-out infinite;
 }
 
 .delay-300 {
@@ -45,6 +123,55 @@
   animation-delay: 700ms;
 }
 
+.delay-1000 {
+  animation-delay: 1000ms;
+}
+
+.delay-1500 {
+  animation-delay: 1500ms;
+}
+
+.delay-2000 {
+  animation-delay: 2000ms;
+}
+
+/* Star field background */
+.star-field {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 160px 30px, #fff, transparent);
+  background-repeat: repeat;
+  background-size: 200px 100px;
+  opacity: 0.8;
+}
+
+/* Cloud shapes */
+.cloud {
+  background: linear-gradient(45deg, rgba(255,255,255,0.8), rgba(255,255,255,0.4));
+  border-radius: 50px;
+  position: absolute;
+}
+
+.cloud:before {
+  content: '';
+  position: absolute;
+  background: linear-gradient(45deg, rgba(255,255,255,0.9), rgba(255,255,255,0.5));
+  border-radius: 50px;
+}
+
+.cloud:after {
+  content: '';
+  position: absolute;
+  background: linear-gradient(45deg, rgba(255,255,255,0.7), rgba(255,255,255,0.3));
+  border-radius: 50px;
+}
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
@@ -54,4 +181,9 @@ html {
 .backdrop-blur-md {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+
+/* Theme transition */
+.theme-transition {
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
