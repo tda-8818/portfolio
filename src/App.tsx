@@ -1,62 +1,64 @@
-import React, {useState, useEffect} from "react";
-// 1. Import BrowserRouter, Routes, and Route
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+// Import all components
 import {
-  Main,
-  Timeline,
-  Skill,
-  Project,
-  Contact,
-  Hobby,
   Navigation,
-  Footer,
-  Photography, // 2. Import your new gallery components
-  Cooking
+  Hero,
+  Experience,
+  Skills,
+  Projects,
+  Contact,
+  Footer
 } from "./components";
-import FadeIn from './components/FadeIn';
-import './index.scss';
 
 function App() {
-    const [mode, setMode] = useState<string>('dark');
+  // Theme state - THIS IS WHERE isDark COMES FROM
+  const [isDark, setIsDark] = useState<boolean>(true);
 
-    const handleModeChange = () => {
-        if (mode === 'dark') {
-            setMode('light');
-        } else {
-            setMode('dark');
-        }
+  // Toggle function - THIS IS WHAT GETS PASSED TO COMPONENTS
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+  };
+
+  // Save theme to localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setIsDark(savedTheme === 'dark');
     }
+  }, []);
 
-    useEffect(() => {
-        window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
-      }, []);
+  useEffect(() => {
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  }, [isDark]);
 
-    return (
-    // 3. Wrap everything in the Router component
-    <Router> 
-      <div className={`main-container ${mode === 'dark' ? 'dark-mode' : 'light-mode'}`}>
-          <Navigation parentToChild={{mode}} modeChange={handleModeChange}/>
-          {/* 4. Use the Routes component to define your pages */}
-          <Routes>
-            {/* 5. Main Portfolio Route (path="/") */}
-            <Route path="/" element={
-              <FadeIn transitionDuration={700}>
-                  <Main/>
-                  <Skill/>
-                  <Timeline/>
-                  <Project/>
-                  <Hobby/>
-                  <Contact/>
-              </FadeIn>
-            } />
-            {/* 6. Gallery Routes */}
-            <Route path="/photography" element={<Photography />} />
-            <Route path="/cooking" element={<Cooking />} />
-          </Routes>
-          <Footer />
+  // Scroll to top on app load
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, []);
+
+  return (
+    <Router>
+      <div className={`transition-colors duration-300 ${isDark ? 'dark' : ''}`}>
+        <Routes>
+          {/* Main Portfolio Page */}
+          <Route path="/" element={
+            <>
+              <Navigation isDark={isDark} toggleTheme={toggleTheme} />
+              <Hero isDark={isDark} />
+              <Experience isDark={isDark} />
+              <Skills isDark={isDark} />
+              <Projects isDark={isDark} />
+              <Contact isDark={isDark} /> 
+              <Footer isDark={isDark} />
+            </>
+          } />
+          
+        </Routes>
       </div>
     </Router>
-    );
+  );
 }
 
 export default App;
