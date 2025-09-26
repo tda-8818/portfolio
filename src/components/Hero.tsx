@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 // Import your profile image
 import profileImage from '../assets/images/profilepic.png';
 
+const TEXTS = ['Full-Stack Developer', 'Tech Consultant', 'Problem Solver', 'Code Enthusiast'];
+
 // Props interface
 interface HeroProps {
     isDark: boolean;
@@ -11,13 +13,12 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({ isDark }) => {
     const [currentText, setCurrentText] = useState('');
     const [currentIndex, setCurrentIndex] = useState(0);
-    const texts = ['Full-Stack Developer', 'Tech Consultant', 'Problem Solver', 'Code Enthusiast'];
 
     useEffect(() => {
         let timeout: NodeJS.Timeout;
-        if (currentIndex < texts[0].length) {
+        if (currentIndex < TEXTS[0].length) {
             timeout = setTimeout(() => {
-                setCurrentText(texts[0].substring(0, currentIndex + 1));
+                setCurrentText(TEXTS[0].substring(0, currentIndex + 1));
                 setCurrentIndex(currentIndex + 1);
             }, 100);
         }
