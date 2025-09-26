@@ -10,19 +10,19 @@ const Skills: React.FC<SkillsProps> = ({ isDark }) => {
       icon: "⚙️",
       title: "Backend Development",
       description: "Robust server-side logic, RESTful APIs, and scalable architectures",
-      skills: ["Python", "Java", "C#", "Node.js", ".NET", "Spring Boot"]
+      skills: ["Python", "Java", "C#", "Node.js", "Express.js", ".NET", "Spring Boot", "Swift"]
     },
     {
       icon: "🎨",
       title: "Frontend Development",
       description: "Dynamic, responsive interfaces with modern frameworks",
-      skills: ["JavaScript", "TypeScript", "React", "Angular", "HTML5", "CSS3", "Tailwind"]
+      skills: ["JavaScript", "TypeScript", "React", "Angular", "HTML5", "CSS3", "Tailwind", "HeadlessUI"]
     },
     {
       icon: "🛠️",
       title: "Tools & Technologies",
       description: "Development tools, databases, and cloud platforms",
-      skills: ["Git", "Docker", "AWS", "PostgreSQL", "MongoDB", "Figma", "Jira"]
+      skills: ["Git", "Docker", "AWS EB", "PostgreSQL", "MongoDB", "Figma", "Jira"]
     }
   ];
 

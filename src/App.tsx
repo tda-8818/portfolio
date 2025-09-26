@@ -13,7 +13,7 @@ import {
 } from "./components";
 
 function App() {
-  // Theme state - THIS IS WHERE isDark COMES FROM
+  // Theme state
   const [isDark, setIsDark] = useState<boolean>(true);
 
   // Toggle function - THIS IS WHAT GETS PASSED TO COMPONENTS

@@ -27,18 +27,28 @@ const Experience: React.FC<ExperienceProps> = ({ isDark }) => {
       highlights: [
         "Collaborated across all IT support tiers, developing communication skills for various technical audiences",
         "Renovated team's project management tracker, streamlining operations for entire IT department",
-        "Contributed to critical data migration project from SharePoint to Expedo"
+        "Successfully completed a critical data migration project from SharePoint to Expedo"
       ]
     },
     {
       title: "Bachelor of Computer Science",
       company: "Monash University",
-      location: "Clayton, VIC",
+      location: "Clayton, Australia",
       period: "2023 - 2025",
       type: "education",
       highlights: [
-        "Relevant Coursework: Algorithms & Data Structures, Software Engineering, Databases",
+        "Relevant Coursework: Advanced Algorithms & Data Structures, Software Engineering, Databases",
         "Parallel Computing, Computer Vision, Project Management"
+      ]
+    },
+    {
+      title: "Bachelor of Computer Science",
+      company: "University of Utah",
+      location: "Salt Lake City, USA",
+      period: "2021 - 2022",
+      type: "education",
+      highlights: [
+        "Relevant Coursework: Algorithms & Data Structures, C# Software Engineering, Java OOP, Networking",
       ]
     }
   ];

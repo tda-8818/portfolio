@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-// Define the props interface - THIS IS IMPORTANT
 interface NavigationProps {
   isDark: boolean;
   toggleTheme: () => void;
@@ -40,7 +39,7 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, toggleTheme }) => {
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
             <h1 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-              ✨ Elsa Tsia
+              Elsa Tsia
             </h1>
           </div>
           
@@ -71,7 +70,7 @@ const Navigation: React.FC<NavigationProps> = ({ isDark, toggleTheme }) => {
             }`}
             title={isDark ? 'Switch to Day Mode' : 'Switch to Night Mode'}
           >
-            <div className={`transition-all duration-300 ${isDark ? 'rotate-0' : 'rotate-180'}`}>
+            <div className={`transition-all duration-300 ${isDark ? 'rotate-0' : 'rotate-270'}`}>
               {isDark ? '☀️' : '🌙'}
             </div>
           </button>

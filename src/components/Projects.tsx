@@ -11,8 +11,8 @@ interface ProjectsProps {
 const Projects: React.FC<ProjectsProps> = ({ isDark }) => {
   const projects = [
     {
-      title: "UniFlow - Task Management",
-      description: "Full-stack MERN application for university project coordination with JWT authentication and CI/CD pipelines.",
+      title: "UniFlow",
+      description: "Project management system for group assignments at university with JWT authentication and CI/CD pipelines.",
       tech: ["MERN", "Docker", "JWT", "GitHub Actions"],
       image: uniFlow,
       liveUrl: "https://uniflow-frontend.onrender.com/",
@@ -23,6 +23,7 @@ const Projects: React.FC<ProjectsProps> = ({ isDark }) => {
       description: "High-fidelity Figma prototype applying Nielsen's Heuristics for enhanced user engagement.",
       tech: ["Figma", "UI/UX", "Prototyping"],
       image: recyclingApp,
+      
     },
     {
       title: "ASCII Rogue-like Game",
@@ -60,7 +61,7 @@ const Projects: React.FC<ProjectsProps> = ({ isDark }) => {
                   className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
-                  <a href={project.liveUrl} className="p-2 bg-white rounded-full hover:scale-110 transition-transform">
+                  <a href={project.liveUrl || project.image} target="_blank" rel="noopener noreferrer" className="p-2 bg-white rounded-full hover:scale-110 transition-transform">
                     <svg className="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
