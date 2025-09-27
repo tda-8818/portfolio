@@ -187,3 +187,13 @@ html {
 .theme-transition {
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Marquee for reviews ticker */
+@keyframes marquee-ltr {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee-ltr {
+  animation: marquee-ltr 30s linear infinite;
+}

@@ -10,7 +10,7 @@ const Experience: React.FC<ExperienceProps> = ({ isDark }) => {
       title: "Cybersecurity Associate",
       company: "AlphaCloud Pty Ltd",
       location: "Melbourne, Australia",
-      period: "Feb 2025 - Present",
+      period: "Feb - Jun 2025",
       type: "work",
       highlights: [
         "Applied foundational knowledge of security principles, including risk management, access control, and cryptography",

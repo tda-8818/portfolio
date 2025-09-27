@@ -9,7 +9,8 @@ import {
   Skills,
   Projects,
   Contact,
-  Footer
+  Footer,
+  Reviews,
 } from "./components";
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
               <Skills isDark={isDark} />
               <Projects isDark={isDark} />
               <Contact isDark={isDark} /> 
+              <Reviews isDark={isDark} />
               <Footer isDark={isDark} />
             </>
           } />
