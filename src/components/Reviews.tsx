@@ -38,8 +38,18 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
     if (nameError) setNameError(''); // Clear error when user starts typing
   };
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const lastSubmissionTime = React.useRef(0);
+
   const submitReview = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Debounce: Prevent submissions within 2 seconds of each other
+    const now = Date.now();
+    if (now - lastSubmissionTime.current < 2000) {
+      console.log('Submission blocked - too soon after last submission');
+      return;
+    }
     
     // Validate name
     if (!name.trim()) {
@@ -53,6 +63,12 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
       return;
     }
 
+    // Record this submission time
+    lastSubmissionTime.current = now;
+    setIsSubmitting(true);
+
+    console.log('Submitting review...'); // Debug log
+
     const newReview: Review = {
       name: name.trim(),
       rating,
@@ -60,7 +76,10 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
       createdAt: new Date().toISOString(),
     };
 
-    setReviews(prev => [newReview, ...prev]);
+    setReviews(prev => {
+      console.log('Adding review to state'); // Debug log
+      return [newReview, ...prev];
+    });
     
     // Reset form
     setName('');
@@ -68,10 +87,15 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
     setRating(0);
     setHoverRating(0);
     setNameError('');
+    
+    // Reset submitting state
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 1000);
   };
 
   const renderStars = (rating: number, size: 'sm' | 'lg' = 'lg', interactive = false) => {
-    const starSize = size === 'lg' ? 'w-8 h-8' : 'w-5 h-5';
+    const starSize = size === 'lg' ? 'w-8 h-8' : 'w-4 h-4'; // Fixed: was w-5 h-5, now w-4 h-4 for sm
     
     return (
       <div className="flex">
@@ -86,7 +110,7 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
                   {/* Half star button */}
                   <button
                     type="button"
-                    className={`${size === 'lg' ? 'w-6 h-12' : 'w-3 h-5'} transition-all duration-200 transform hover:scale-110 focus:outline-none relative overflow-hidden`}
+                    className={`${size === 'lg' ? 'w-6 h-12' : 'w-2 h-4'} transition-all duration-200 transform hover:scale-110 focus:outline-none relative overflow-hidden`}
                     onClick={() => handleStarClick(starIndex - 0.5)}
                     onMouseEnter={() => handleStarHover(starIndex - 0.5)}
                   >
@@ -108,7 +132,7 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
                   {/* Full star button */}
                   <button
                     type="button"
-                    className={`${size === 'lg' ? 'w-6 h-12' : 'w-3 h-5'} transition-all duration-200 transform hover:scale-110 focus:outline-none relative overflow-hidden`}
+                    className={`${size === 'lg' ? 'w-6 h-12' : 'w-2 h-4'} transition-all duration-200 transform hover:scale-110 focus:outline-none relative overflow-hidden`}
                     onClick={() => handleStarClick(starIndex)}
                     onMouseEnter={() => handleStarHover(starIndex)}
                   >
@@ -197,6 +221,13 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
         <form onSubmit={submitReview} className={`p-8 rounded-xl shadow-lg mb-12 ${
           isDark ? 'bg-gray-800' : 'bg-gray-50'
         }`}>
+          {/* Debug info */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mb-4 p-2 bg-yellow-100 text-yellow-800 text-xs rounded">
+              Debug: Reviews count: {reviews.length} | Submitting: {isSubmitting.toString()}
+            </div>
+          )}
+          
           {/* Star Rating */}
           <div className="text-center mb-8">
             <p className={`text-lg font-medium mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
@@ -287,19 +318,19 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
           <div className="text-center">
             <button
               type="submit"
-              disabled={rating === 0 || !name.trim()}
+              disabled={rating === 0 || !name.trim() || isSubmitting}
               className={`px-8 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none ${
                 isDark 
                   ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white hover:from-blue-600 hover:to-cyan-600' 
                   : 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600'
               }`}
             >
-              Submit Review
+              {isSubmitting ? 'Submitting...' : 'Submit Review'}
             </button>
           </div>
         </form>
 
-        {/* Reviews Display */}
+        {/* Reviews Carousel */}
         {reviews.length > 0 && (
           <div>
             <h3 className={`text-2xl font-bold mb-8 text-center ${
@@ -308,35 +339,88 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
               Recent Reviews ({reviews.length})
             </h3>
             
-            <div className="grid gap-6">
-              {reviews.map((review, index) => (
-                <div key={index} className={`p-6 rounded-xl shadow-lg ${
-                  isDark ? 'bg-gray-800' : 'bg-white'
-                }`}>
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                        {review.name}
-                      </h4>
-                      <div className="flex items-center gap-2 mt-1">
-                        {renderStars(review.rating, 'sm')}
-                        <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                          {review.rating}/5 stars
-                        </span>
+            {/* Continuous scrolling carousel */}
+            <div className="relative overflow-hidden">
+              {/* Fade out edges for smooth visual effect */}
+              <div className={`absolute left-0 top-0 w-20 h-full z-10 pointer-events-none ${
+                isDark 
+                  ? 'bg-gradient-to-r from-gray-900 to-transparent' 
+                  : 'bg-gradient-to-r from-white to-transparent'
+              }`}></div>
+              <div className={`absolute right-0 top-0 w-20 h-full z-10 pointer-events-none ${
+                isDark 
+                  ? 'bg-gradient-to-l from-gray-900 to-transparent' 
+                  : 'bg-gradient-to-l from-white to-transparent'
+              }`}></div>
+              
+              {/* Seamless infinite scroll container */}
+              <div className="flex gap-6 animate-marquee-ltr">
+                {/* First set of reviews */}
+                {reviews.map((review, index) => (
+                  <div 
+                    key={`first-${index}`} 
+                    className={`flex-shrink-0 w-80 p-6 rounded-xl shadow-lg ${
+                      isDark ? 'bg-gray-800' : 'bg-white'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                          {review.name}
+                        </h4>
+                        <div className="flex items-center gap-2 mt-1">
+                          {renderStars(review.rating, 'sm')}
+                          <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                            {review.rating}/5 stars
+                          </span>
+                        </div>
                       </div>
+                      <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                        {new Date(review.createdAt).toLocaleDateString()}
+                      </span>
                     </div>
-                    <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                      {new Date(review.createdAt).toLocaleDateString()}
-                    </span>
+                    
+                    {review.comment && (
+                      <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} line-clamp-3`}>
+                        "{review.comment}"
+                      </p>
+                    )}
                   </div>
-                  
-                  {review.comment && (
-                    <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                      "{review.comment}"
-                    </p>
-                  )}
-                </div>
-              ))}
+                ))}
+                
+                {/* Duplicate set for seamless loop */}
+                {reviews.map((review, index) => (
+                  <div 
+                    key={`second-${index}`} 
+                    className={`flex-shrink-0 w-80 p-6 rounded-xl shadow-lg ${
+                      isDark ? 'bg-gray-800' : 'bg-white'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                          {review.name}
+                        </h4>
+                        <div className="flex items-center gap-2 mt-1">
+                          {renderStars(review.rating, 'sm')}
+                          <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                            {review.rating}/5 stars
+                          </span>
+                        </div>
+                      </div>
+                      <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                        {new Date(review.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
+                    
+                    {review.comment && (
+                      <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} line-clamp-3`}>
+                        "{review.comment}"
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}

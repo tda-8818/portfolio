@@ -195,5 +195,5 @@ html {
 }
 
 .animate-marquee-ltr {
-  animation: marquee-ltr 30s linear infinite;
+  animation: marquee-ltr 20s linear infinite;
 }
