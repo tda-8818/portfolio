@@ -77,8 +77,6 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
       <div className="flex">
         {[1, 2, 3, 4, 5].map((starIndex) => {
           const fillPercentage = Math.max(0, Math.min(100, (rating - starIndex + 1) * 100));
-          const isHalfFilled = fillPercentage > 0 && fillPercentage < 100;
-          const isFilled = fillPercentage >= 100;
           
           return (
             <div key={starIndex} className="relative">

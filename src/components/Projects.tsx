@@ -3,6 +3,7 @@ import uniFlow from '../assets/images/projects/tasksystem.png';
 import recyclingApp from '../assets/images/projects/recyclingapp.png';
 import staticFactory from '../assets/images/projects/staticfactory.png';
 import plantImageProcessing from '../assets/images/projects/findingplants.png';
+import snakeGame from '../assets/images/projects/snakegame.png';
 
 interface ProjectsProps {
   isDark: boolean;
@@ -34,8 +35,14 @@ const Projects: React.FC<ProjectsProps> = ({ isDark }) => {
     {
       title: "Plant Image Processing",
       description: "MATLAB application using image processing techniques to segment and analyse plant material from images.",
-      tech: ["MATLAB", "Computer Vision", "Image Processing"],
+      tech: ["MATLAB", "Image Processing"],
       image: plantImageProcessing,
+    },
+    {
+      title: "Snake Game",
+      description: "A multiplayer Snake desktop app built with MAUI featuring real-time gameplay, chat functionality, and networked connectivity. Players can host servers via IP address and compete while communicating through an integrated chat system. Built using MVC architecture with TCP/IP networking and SQL database integration.",
+      tech: ["C#", ".NET", "Networking"],
+      image: snakeGame,
     }
   ];
 
