@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../lib/supabase';
 
 interface ReviewsProps {
   isDark: boolean;
 }
 
 type Review = {
+  id?: string;
   name: string;
   rating: number;
   comment: string;
-  createdAt: string;
+  created_at: string;
 };
+
+const MAX_COMMENT_LENGTH = 120;
 
 const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
   const [name, setName] = useState('');
@@ -18,8 +22,33 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
   const [hoverRating, setHoverRating] = useState(0);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [nameError, setNameError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const lastSubmissionTime = React.useRef(0);
 
   const displayRating = hoverRating || rating;
+
+  // Load reviews from Supabase on mount
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
+  const fetchReviews = async () => {
+    try {
+      setIsLoading(true);
+      const { data, error } = await supabase
+        .from('reviews')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setReviews(data || []);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleStarClick = (starIndex: number) => {
     setRating(starIndex);
@@ -35,67 +64,63 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
-    if (nameError) setNameError(''); // Clear error when user starts typing
+    if (nameError) setNameError('');
   };
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const lastSubmissionTime = React.useRef(0);
-
-  const submitReview = (e: React.FormEvent) => {
+  const submitReview = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Debounce: Prevent submissions within 2 seconds of each other
     const now = Date.now();
     if (now - lastSubmissionTime.current < 2000) {
-      console.log('Submission blocked - too soon after last submission');
+      console.log('Submission blocked - too soon');
       return;
     }
     
-    // Validate name
     if (!name.trim()) {
       setNameError('Name is required');
       return;
     }
     
-    // Validate rating
     if (rating <= 0) {
       alert('Please select a rating before submitting!');
       return;
     }
 
-    // Record this submission time
     lastSubmissionTime.current = now;
     setIsSubmitting(true);
 
-    console.log('Submitting review...'); // Debug log
+    try {
+      const { error } = await supabase
+        .from('reviews')
+        .insert([{
+          name: name.trim(),
+          rating,
+          comment: comment.trim(),
+        }]);
 
-    const newReview: Review = {
-      name: name.trim(),
-      rating,
-      comment: comment.trim(),
-      createdAt: new Date().toISOString(),
-    };
+      if (error) throw error;
 
-    setReviews(prev => {
-      console.log('Adding review to state'); // Debug log
-      return [newReview, ...prev];
-    });
-    
-    // Reset form
-    setName('');
-    setComment('');
-    setRating(0);
-    setHoverRating(0);
-    setNameError('');
-    
-    // Reset submitting state
-    setTimeout(() => {
-      setIsSubmitting(false);
-    }, 1000);
+      await fetchReviews();
+      
+      setName('');
+      setComment('');
+      setRating(0);
+      setHoverRating(0);
+      setNameError('');
+      
+      //alert('Thank you for your review! 🎉');
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      //alert('Failed to submit review. Please try again.');
+    } finally {
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 1000);
+    }
   };
 
   const renderStars = (rating: number, size: 'sm' | 'lg' = 'lg', interactive = false) => {
-    const starSize = size === 'lg' ? 'w-8 h-8' : 'w-4 h-4'; // Fixed: was w-5 h-5, now w-4 h-4 for sm
+    const starSize = size === 'lg' ? 'w-8 h-8' : 'w-4 h-4';
     
     return (
       <div className="flex">
@@ -105,9 +130,7 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
           return (
             <div key={starIndex} className="relative">
               {interactive ? (
-                // Interactive stars for rating input
                 <div className="flex">
-                  {/* Half star button */}
                   <button
                     type="button"
                     className={`${size === 'lg' ? 'w-6 h-12' : 'w-2 h-4'} transition-all duration-200 transform hover:scale-110 focus:outline-none relative overflow-hidden`}
@@ -129,7 +152,6 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   </button>
-                  {/* Full star button */}
                   <button
                     type="button"
                     className={`${size === 'lg' ? 'w-6 h-12' : 'w-2 h-4'} transition-all duration-200 transform hover:scale-110 focus:outline-none relative overflow-hidden`}
@@ -151,7 +173,6 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   </button>
-                  {/* Background star outline */}
                   <svg
                     className={`absolute inset-0 ${starSize} pointer-events-none ${
                       starIndex <= displayRating 
@@ -169,9 +190,7 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
                   </svg>
                 </div>
               ) : (
-                // Display stars for showing ratings
                 <div className="relative">
-                  {/* Background star */}
                   <svg
                     className={`${starSize} ${isDark ? 'text-gray-600' : 'text-gray-300'}`}
                     fill="currentColor"
@@ -180,7 +199,6 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
                   
-                  {/* Filled star overlay */}
                   {fillPercentage > 0 && (
                     <div 
                       className="absolute top-0 left-0 overflow-hidden"
@@ -217,18 +235,9 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
           </p>
         </div>
 
-        {/* Review Form */}
         <form onSubmit={submitReview} className={`p-8 rounded-xl shadow-lg mb-12 ${
           isDark ? 'bg-gray-800' : 'bg-gray-50'
         }`}>
-          {/* Debug info */}
-          {process.env.NODE_ENV === 'development' && (
-            <div className="mb-4 p-2 bg-yellow-100 text-yellow-800 text-xs rounded">
-              Debug: Reviews count: {reviews.length} | Submitting: {isSubmitting.toString()}
-            </div>
-          )}
-          
-          {/* Star Rating */}
           <div className="text-center mb-8">
             <p className={`text-lg font-medium mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
               How would you rate this portfolio?
@@ -268,7 +277,6 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
             </p>
           </div>
 
-          {/* Name Input - Required */}
           <div className="mb-6">
             <label className={`block text-sm font-medium mb-2 ${
               isDark ? 'text-gray-300' : 'text-gray-700'
@@ -294,7 +302,6 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
             )}
           </div>
 
-          {/* Comment Input */}
           <div className="mb-8">
             <label className={`block text-sm font-medium mb-2 ${
               isDark ? 'text-gray-300' : 'text-gray-700'
@@ -303,7 +310,11 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
             </label>
             <textarea
               value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length <= MAX_COMMENT_LENGTH) {
+                  setComment(e.target.value);
+                }
+              }}
               rows={4}
               className={`w-full px-4 py-3 rounded-lg border transition-colors duration-200 focus:ring-2 focus:ring-offset-2 ${
                 isDark 
@@ -312,9 +323,15 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
               }`}
               placeholder="Share your thoughts about this portfolio..."
             />
+            <div className={`text-xs mt-1 text-right ${
+              comment.length >= MAX_COMMENT_LENGTH 
+                ? 'text-red-500' 
+                : isDark ? 'text-gray-400' : 'text-gray-600'
+            }`}>
+              {comment.length}/{MAX_COMMENT_LENGTH} characters
+            </div>
           </div>
 
-          {/* Submit Button */}
           <div className="text-center">
             <button
               type="submit"
@@ -330,8 +347,16 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
           </div>
         </form>
 
-        {/* Reviews Carousel */}
-        {reviews.length > 0 && (
+        {isLoading ? (
+          <div className="text-center py-12">
+            <div className={`inline-block animate-spin rounded-full h-12 w-12 border-b-2 ${
+              isDark ? 'border-blue-400' : 'border-blue-600'
+            }`}></div>
+            <p className={`mt-4 ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+              Loading reviews...
+            </p>
+          </div>
+        ) : reviews.length > 0 ? (
           <div>
             <h3 className={`text-2xl font-bold mb-8 text-center ${
               isDark ? 'text-white' : 'text-gray-900'
@@ -339,27 +364,12 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
               Recent Reviews ({reviews.length})
             </h3>
             
-            {/* Continuous scrolling carousel */}
-            <div className="relative overflow-hidden">
-              {/* Fade out edges for smooth visual effect */}
-              <div className={`absolute left-0 top-0 w-20 h-full z-10 pointer-events-none ${
-                isDark 
-                  ? 'bg-gradient-to-r from-gray-900 to-transparent' 
-                  : 'bg-gradient-to-r from-white to-transparent'
-              }`}></div>
-              <div className={`absolute right-0 top-0 w-20 h-full z-10 pointer-events-none ${
-                isDark 
-                  ? 'bg-gradient-to-l from-gray-900 to-transparent' 
-                  : 'bg-gradient-to-l from-white to-transparent'
-              }`}></div>
-              
-              {/* Seamless infinite scroll container */}
-              <div className="flex gap-6 animate-marquee-ltr">
-                {/* First set of reviews */}
+            {reviews.length < 3 ? (
+              <div className="grid gap-6 max-w-4xl mx-auto">
                 {reviews.map((review, index) => (
                   <div 
-                    key={`first-${index}`} 
-                    className={`flex-shrink-0 w-80 p-6 rounded-xl shadow-lg ${
+                    key={index} 
+                    className={`w-full p-6 rounded-xl shadow-lg ${
                       isDark ? 'bg-gray-800' : 'bg-white'
                     }`}
                   >
@@ -376,52 +386,68 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
                         </div>
                       </div>
                       <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                        {new Date(review.createdAt).toLocaleDateString()}
+                        {new Date(review.created_at).toLocaleDateString()}
                       </span>
                     </div>
                     
                     {review.comment && (
-                      <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} line-clamp-3`}>
-                        "{review.comment}"
-                      </p>
-                    )}
-                  </div>
-                ))}
-                
-                {/* Duplicate set for seamless loop */}
-                {reviews.map((review, index) => (
-                  <div 
-                    key={`second-${index}`} 
-                    className={`flex-shrink-0 w-80 p-6 rounded-xl shadow-lg ${
-                      isDark ? 'bg-gray-800' : 'bg-white'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                          {review.name}
-                        </h4>
-                        <div className="flex items-center gap-2 mt-1">
-                          {renderStars(review.rating, 'sm')}
-                          <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                            {review.rating}/5 stars
-                          </span>
-                        </div>
-                      </div>
-                      <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                        {new Date(review.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                    
-                    {review.comment && (
-                      <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} line-clamp-3`}>
+                      <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                         "{review.comment}"
                       </p>
                     )}
                   </div>
                 ))}
               </div>
-            </div>
+            ) : (
+              <div className="relative overflow-hidden">
+                <div className={`absolute left-0 top-0 w-20 h-full z-10 pointer-events-none ${
+                  isDark ? 'bg-gradient-to-r from-gray-900 to-transparent' : 'bg-gradient-to-r from-white to-transparent'
+                }`}></div>
+                <div className={`absolute right-0 top-0 w-20 h-full z-10 pointer-events-none ${
+                  isDark ? 'bg-gradient-to-l from-gray-900 to-transparent' : 'bg-gradient-to-l from-white to-transparent'
+                }`}></div>
+                
+                <div className="flex gap-6 animate-marquee-ltr">
+                  {reviews.concat(reviews).map((review, index) => (
+                    <div 
+                      key={index} 
+                      className={`flex-shrink-0 w-80 p-6 rounded-xl shadow-lg ${
+                        isDark ? 'bg-gray-800' : 'bg-white'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                            {review.name}
+                          </h4>
+                          <div className="flex items-center gap-2 mt-1">
+                            {renderStars(review.rating, 'sm')}
+                            <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                              {review.rating}/5 stars
+                            </span>
+                          </div>
+                        </div>
+                        <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                          {new Date(review.created_at).toLocaleDateString()}
+                        </span>
+                      </div>
+                      
+                      {review.comment && (
+                        <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'} line-clamp-3`}>
+                          "{review.comment}"
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className={`text-lg ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+              No reviews yet. Be the first to share your feedback! 🌟
+            </p>
           </div>
         )}
       </div>
