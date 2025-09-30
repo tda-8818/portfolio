@@ -108,10 +108,10 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
       setHoverRating(0);
       setNameError('');
       
-      //alert('Thank you for your review! 🎉');
+      alert('Thank you for your review! 🎉');
     } catch (error) {
       console.error('Error submitting review:', error);
-      //alert('Failed to submit review. Please try again.');
+      alert('Failed to submit review. Please try again.');
     } finally {
       setTimeout(() => {
         setIsSubmitting(false);
@@ -364,42 +364,7 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
               Recent Reviews ({reviews.length})
             </h3>
             
-            {reviews.length < 3 ? (
-              <div className="grid gap-6 max-w-4xl mx-auto">
-                {reviews.map((review, index) => (
-                  <div 
-                    key={index} 
-                    className={`w-full p-6 rounded-xl shadow-lg ${
-                      isDark ? 'bg-gray-800' : 'bg-white'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h4 className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                          {review.name}
-                        </h4>
-                        <div className="flex items-center gap-2 mt-1">
-                          {renderStars(review.rating, 'sm')}
-                          <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                            {review.rating}/5 stars
-                          </span>
-                        </div>
-                      </div>
-                      <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                        {new Date(review.created_at).toLocaleDateString()}
-                      </span>
-                    </div>
-                    
-                    {review.comment && (
-                      <p className={`${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-                        "{review.comment}"
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="relative overflow-hidden">
+            <div className="relative overflow-hidden">
                 <div className={`absolute left-0 top-0 w-20 h-full z-10 pointer-events-none ${
                   isDark ? 'bg-gradient-to-r from-gray-900 to-transparent' : 'bg-gradient-to-r from-white to-transparent'
                 }`}></div>
@@ -407,7 +372,7 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
                   isDark ? 'bg-gradient-to-l from-gray-900 to-transparent' : 'bg-gradient-to-l from-white to-transparent'
                 }`}></div>
                 
-                <div className="flex gap-6 animate-marquee-ltr">
+                <div className="flex gap-6 animate-marquee-ltr" style={{ width: 'max-content' }}>
                   {reviews.concat(reviews).map((review, index) => (
                     <div 
                       key={index} 
@@ -441,7 +406,6 @@ const Reviews: React.FC<ReviewsProps> = ({ isDark }) => {
                   ))}
                 </div>
               </div>
-            )}
           </div>
         ) : (
           <div className="text-center py-12">
